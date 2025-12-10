@@ -1,21 +1,12 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+// src/app/layout.tsx
+
 import "./globals.css";
+import type { Metadata } from "next";
 import { CartProvider } from "@/app/context/CartContext";
 
-const geistSans = Geist({
-  subsets: ["latin"],
-  variable: "--font-geist-sans",
-});
-
-const geistMono = Geist_Mono({
-  subsets: ["latin"],
-  variable: "--font-geist-mono",
-});
-
 export const metadata: Metadata = {
-  title: "Ayasofya Furniture",
-  description: "Ayasofya Furniture online catalog for Iraq",
+  title: "آياصوفيا للأثاث",
+  description: "معرض آياصوفيا للأثاث – غرف نوم، صالات، سفرات",
 };
 
 export default function RootLayout({
@@ -24,22 +15,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+    <html lang="ar" dir="rtl">
+      <body className="bg-gray-50 text-gray-900">
         <CartProvider>
           {children}
-
-          {/* Floating WhatsApp Button – put real number later */}
-          <a
-            href="https://wa.me/9647XXXXXXXXX"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="fixed bottom-4 right-4 z-50 flex items-center gap-2 rounded-full bg-green-500 px-4 py-3 text-sm font-semibold text-white shadow-lg hover:bg-green-600"
-          >
-            💬 واتساب
-          </a>
         </CartProvider>
       </body>
     </html>

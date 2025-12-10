@@ -6,6 +6,7 @@ export type Product = {
   shortDescription: string;
   details: string;
   featured?: boolean;
+  image: string; // image path in /public
 };
 
 export const products: Product[] = [
@@ -18,6 +19,7 @@ export const products: Product[] = [
     details:
       "يمكن إضافة تفاصيل أكثر هنا مثل نوع الخشب، القياسات، والألوان المتوفرة.",
     featured: true,
+    image: "/products/bedroom-set.jpg",
   },
   {
     slug: "corner-sofa",
@@ -28,6 +30,7 @@ export const products: Product[] = [
       "زاوية مريحة مع قماش عملي يناسب الاستخدام اليومي في غرفة الجلوس.",
     details: "تفاصيل عن نوع القماش، الألوان المتوفرة، وسهولة التنظيف.",
     featured: true,
+    image: "/products/corner-sofa.jpg",
   },
   {
     slug: "dining-6-chairs",
@@ -38,6 +41,7 @@ export const products: Product[] = [
       "طاولة طعام مع 6 كراسي بتصميم معدني/خشبي متين مناسب للعائلة.",
     details: "قياس الطاولة، نوع الخشب، وقابلية التفكيك والنقل.",
     featured: true,
+    image: "/products/dining-6-chairs.jpg",
   },
   {
     slug: "kids-room-shared",
@@ -48,6 +52,7 @@ export const products: Product[] = [
       "سريران مع خزانه و مكتب دراسة، مناسب لغرفة مشتركة لطفلين.",
     details: "تصميم آمن للأطفال مع مساحة تخزين إضافية وألوان مبهجة.",
     featured: true,
+    image: "/products/kids-room-shared.jpg",
   },
   {
     slug: "classic-living-set",
@@ -58,6 +63,7 @@ export const products: Product[] = [
       "طقم صالة بثلاثة قطع بستايل كلاسيكي لمحبي الديكور التقليدي.",
     details: "تفاصيل خشب فاخر ونقوش كلاسيكية مميزة.",
     featured: true,
+    image: "/products/classic-living-set.jpg",
   },
   {
     slug: "offer-bedroom-dining",
@@ -68,6 +74,7 @@ export const products: Product[] = [
       "باقة مخفّضة لفترة محدودة تشمل غرفة نوم كاملة مع سفرة 6 كراسي.",
     details: "عرض لفترة محدودة، مناسب للتجهيز الكامل لشقة جديدة.",
     featured: true,
+    image: "/products/offer-bedroom-dining.jpg",
   },
 ];
 
@@ -86,4 +93,3 @@ export function findProductBySlug(slug: string): Product | undefined {
 export function findProductByName(name: string): Product | undefined {
   return products.find((p) => p.name === name);
 }
-

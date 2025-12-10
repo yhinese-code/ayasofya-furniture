@@ -1,7 +1,13 @@
+// src/app/page.tsx
+
 import Link from "next/link";
 import CartBadgeClient from "@/app/components/CartBadgeClient";
 import { getFeaturedProducts } from "@/app/data/products";
-import { WHATSAPP_NUMBER, STORE_NAME, STORE_TAGLINE } from "@/app/config/storeConfig";
+import {
+  WHATSAPP_NUMBER,
+  STORE_NAME,
+  STORE_TAGLINE,
+} from "@/app/config/storeConfig";
 
 const featuredProducts = getFeaturedProducts();
 
@@ -47,41 +53,46 @@ export default function Home() {
         </div>
       </header>
 
-      {/* HERO SECTION */}
-      <section className="mx-auto flex max-w-6xl flex-col gap-6 px-4 py-8 md:flex-row md:items-center">
-        <div className="flex-1 space-y-4 text-right">
-          <p className="text-xs font-semibold text-amber-700">
-            آياصوفيا للأثاث – بابل / كربلاء
-          </p>
-          <h1 className="text-2xl font-bold md:text-3xl">{STORE_TAGLINE}</h1>
-          <p className="text-sm text-gray-600">
-            هذا الموقع نموذج أولي لعرض غرف نوم، غرف جلوس، سفرات وعروض خاصة من
-            معرض آياصوفيا. لاحقاً سنربطه بقاعدة بيانات كاملة ونظام طلبات.
-          </p>
+     {/* FULL WIDTH HERO IMAGE (NO BORDERS, NO MARGINS) */}
+<section className="w-full">
+  <div className="w-full">
+    <img
+      src="/hero-ayasofya.jpg"
+      alt="معرض آياصوفيا للأثاث"
+      className="w-full h-auto object-cover"
+    />
+  </div>
+</section>
 
-          <div className="flex flex-wrap justify-end gap-3">
-            <Link
-              href="/products"
-              className="rounded-full bg-amber-700 px-5 py-2 text-sm font-semibold text-white hover:bg-amber-800"
-            >
-              عرض جميع المنتجات
-            </Link>
-            <a
-              href={`https://wa.me/${WHATSAPP_NUMBER}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="rounded-full border border-amber-700 px-5 py-2 text-sm font-semibold text-amber-800 hover:bg-amber-50"
-            >
-              تواصل عبر الواتساب
-            </a>
-          </div>
-        </div>
+      {/* HERO TEXT UNDER IMAGE */}
+      <section className="mx-auto max-w-7xl space-y-6 px-4 py-14 text-right">
+        <p className="text-xs font-semibold text-amber-700">
+          آياصوفيا للأثاث – بابل / كربلاء
+        </p>
 
-        <div className="flex-1">
-          <div className="h-56 rounded-3xl bg-gradient-to-br from-amber-200 to-amber-50 shadow-inner md:h-72" />
-          <p className="mt-2 text-right text-[11px] text-gray-500">
-            سيتم استبدال هذه المساحة بصور حقيقية من معرض آياصوفيا لاحقاً.
-          </p>
+        <h1 className="text-3xl font-bold md:text-4xl">{STORE_TAGLINE}</h1>
+
+        <p className="max-w-3xl text-sm text-gray-600 md:ml-auto">
+          هذا الموقع نموذج أولي لعرض غرف نوم، غرف جلوس، سفرات وعروض خاصة من معرض
+          آياصوفيا للأثاث. قريباً سيتم ربطه بقاعدة بيانات كاملة ونظام طلبات
+          متكامل لخدمة الزبائن بشكل أفضل.
+        </p>
+
+        <div className="flex flex-wrap justify-end gap-3">
+          <Link
+            href="/products"
+            className="rounded-full bg-amber-700 px-6 py-2 text-sm font-semibold text-white hover:bg-amber-800"
+          >
+            عرض جميع المنتجات
+          </Link>
+          <a
+            href={`https://wa.me/${WHATSAPP_NUMBER}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="rounded-full border border-amber-700 px-6 py-2 text-sm font-semibold text-amber-800 hover:bg-amber-50"
+          >
+            تواصل عبر الواتساب
+          </a>
         </div>
       </section>
 
@@ -105,7 +116,13 @@ export default function Home() {
                 href={`/products/${product.slug}`}
                 className="block flex-1 space-y-3"
               >
-                <div className="mb-3 h-32 rounded-xl bg-gray-200" />
+                <div className="mb-3 h-32 overflow-hidden rounded-xl bg-gray-200">
+                  <img
+                    src={product.image}
+                    alt={product.name}
+                    className="h-full w-full object-cover"
+                  />
+                </div>
                 <div className="space-y-1">
                   <p className="text-[11px] font-semibold text-amber-700">
                     {product.type}

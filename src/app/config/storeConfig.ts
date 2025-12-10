@@ -1,6 +1,6 @@
 export const WHATSAPP_NUMBER = "9647XXXXXXXXX";
 
-export const STORE_NAME = "Ayasofya Furniture";
+export const STORE_NAME = "معرض آياصوفيا للأثاث";
 
 export const STORE_TAGLINE =
-  "تشكيلة أثاث تركي وحديث من المعرض مباشرة إلى بيتك";
+  "تشكيلة غرف نوم، صالات وسفرات بتصاميم تركية وحديثة مع خدمة توصيل داخل بابل وكربلاء.";

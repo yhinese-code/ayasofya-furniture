@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import AddToCartClient from "@/app/components/AddToCartClient";
 import { findProductBySlug } from "@/app/data/products";
 import { WHATSAPP_NUMBER } from "@/app/config/storeConfig";
@@ -46,8 +47,15 @@ export default async function ProductDetailPage({
 
       <section className="mx-auto max-w-4xl px-4 py-8">
         <div className="grid gap-6 md:grid-cols-2">
-          {/* Image placeholder */}
-          <div className="h-64 rounded-2xl bg-gray-200 md:h-80" />
+          {/* Product image */}
+          <div className="relative h-64 overflow-hidden rounded-2xl bg-gray-200 md:h-80">
+            <Image
+              src={product.image}
+              alt={product.name}
+              fill
+              className="object-cover"
+            />
+          </div>
 
           {/* Product info */}
           <div className="space-y-4">

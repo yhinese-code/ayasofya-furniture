@@ -1,75 +1,71 @@
+// src/app/context/CartContext.tsx
 "use client";
 
-import { createContext, useContext, useEffect, useState } from "react";
-import { findProductByName } from "@/app/data/products";
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  ReactNode,
+} from "react";
 
-type CartItem = {
+export type CartItem = {
+  slug: string;
   name: string;
-  price: number; // د.ع
+  price?: number;
+  image?: string;
 };
 
-type CartContextType = {
+type CartContextValue = {
   items: CartItem[];
-  addToCart: (item: CartItem) => void;
-  removeOne: (name: string) => void;
+  addItem: (item: CartItem) => void;          // add one
+  addToCart: (item: CartItem) => void;        // alias for compatibility
+  removeItem: (slug: string) => void;         // remove ONE of that item
+  removeOne: (slug: string) => void;          // alias
   clearCart: () => void;
 };
 
-const CartContext = createContext<CartContextType | null>(null);
+const CartContext = createContext<CartContextValue | undefined>(undefined);
 
-const STORAGE_KEY = "ayasofya-cart-v1";
+const STORAGE_KEY = "ayasofya-cart";
 
-export function CartProvider({ children }: { children: React.ReactNode }) {
+export function CartProvider({ children }: { children: ReactNode }) {
   const [items, setItems] = useState<CartItem[]>([]);
 
-  // Load from localStorage (handles old data with or without price)
+  // Load from localStorage on first mount (browser only)
   useEffect(() => {
+    if (typeof window === "undefined") return;
     try {
       const stored = window.localStorage.getItem(STORAGE_KEY);
-      if (!stored) return;
-
-      const parsed = JSON.parse(stored);
-      if (!Array.isArray(parsed)) return;
-
-      const safeItems: CartItem[] = parsed
-        .map((i: any) => {
-          if (!i || typeof i.name !== "string") return null;
-
-          if (typeof i.price === "number") {
-            return { name: i.name, price: i.price } as CartItem;
-          }
-
-          const info = findProductByName(i.name);
-          if (info) {
-            return { name: i.name, price: info.price } as CartItem;
-          }
-
-          return null;
-        })
-        .filter((i): i is CartItem => i !== null);
-
-      setItems(safeItems);
+      if (stored) {
+        const parsed = JSON.parse(stored) as CartItem[];
+        if (Array.isArray(parsed)) {
+          setItems(parsed);
+        }
+      }
     } catch (err) {
-      console.error("Failed to load cart from localStorage", err);
+      console.error("Failed to read cart from localStorage", err);
     }
   }, []);
 
-  // Save to localStorage on change
+  // Save to localStorage whenever items change
   useEffect(() => {
+    if (typeof window === "undefined") return;
     try {
       window.localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
     } catch (err) {
-      console.error("Failed to save cart to localStorage", err);
+      console.error("Failed to write cart to localStorage", err);
     }
   }, [items]);
 
-  const addToCart = (item: CartItem) => {
+  const addItem = (item: CartItem) => {
     setItems((prev) => [...prev, item]);
   };
 
-  const removeOne = (name: string) => {
+  // Remove ONE occurrence of an item by slug
+  const removeOne = (slug: string) => {
     setItems((prev) => {
-      const index = prev.findIndex((i) => i.name === name);
+      const index = prev.findIndex((it) => it.slug === slug);
       if (index === -1) return prev;
       const copy = [...prev];
       copy.splice(index, 1);
@@ -77,21 +73,24 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     });
   };
 
-  const clearCart = () => {
-    setItems([]);
+  const clearCart = () => setItems([]);
+
+  const value: CartContextValue = {
+    items,
+    addItem,
+    addToCart: addItem,   // alias so old code still works
+    removeItem: removeOne,
+    removeOne,
+    clearCart,
   };
 
-  return (
-    <CartContext.Provider value={{ items, addToCart, removeOne, clearCart }}>
-      {children}
-    </CartContext.Provider>
-  );
+  return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
 }
 
 export function useCart() {
-  const context = useContext(CartContext);
-  if (!context) {
-    throw new Error("useCart must be used inside CartProvider");
+  const ctx = useContext(CartContext);
+  if (!ctx) {
+    throw new Error("useCart must be used within a CartProvider");
   }
-  return context;
+  return ctx;
 }

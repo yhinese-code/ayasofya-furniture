@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import CartBadgeClient from "@/app/components/CartBadgeClient";
 import { getAllProducts } from "@/app/data/products";
 import { WHATSAPP_NUMBER } from "@/app/config/storeConfig";
@@ -40,9 +41,16 @@ export default function ProductsPage() {
               {/* Clickable area that goes to product detail */}
               <Link
                 href={`/products/${product.slug}`}
-                className="flex-1 space-y-3 block"
+                className="block flex-1 space-y-3"
               >
-                <div className="mb-3 h-32 rounded-xl bg-gray-200" />
+                <div className="relative mb-3 h-32 overflow-hidden rounded-xl bg-gray-200">
+                  <Image
+                    src={product.image}
+                    alt={product.name}
+                    fill
+                    className="object-cover"
+                  />
+                </div>
                 <div className="space-y-1">
                   <p className="text-[11px] font-semibold text-amber-700">
                     {product.type}
